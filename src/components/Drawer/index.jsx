@@ -1,12 +1,14 @@
+import styles from "./Drawer.module.scss";
+
 const Drawer = () => {
   return (
     <div>
-      <div style={{ display: "none" }} className="overlay">
-        <div className="drawer">
+      <div style={{ display: "none" }} className={styles.overlay}>
+        <div className={styles.drawer}>
           <h2 className="d-flex justify-between mb-30">
             Cart <img className="cu-p removeBtn" src="img/btn-remove.svg" alt="Remove" />
           </h2>
-          <div className="items">
+          <div className={styles.items}>
             <div className="cartItem d-flex align-center mb-20">
               <div
                 style={{ backgroundImage: "url(/img/sneakers/1.jpg)" }}
