@@ -1,8 +1,12 @@
 import styles from "./Card.module.scss";
+import React from "react";
 
-const Card = ({ title, price, imageUrl }) => {
-  const onClickButton = () => {
-    alert(title);
+const Card = ({ item, onAddCart }) => {
+  const [isAdded, setisAdded] = React.useState(false);
+
+  const onClickPlus = () => {
+    setisAdded(!isAdded);
+    onAddCart(item);
   };
 
   return (
@@ -11,16 +15,19 @@ const Card = ({ title, price, imageUrl }) => {
         <div className={styles.favourite}>
           <img src="/img/unliked.svg" alt="Unliked" />
         </div>
-        <img width={133} height={112} src={imageUrl} alt="Sneakers" />
-        <h5>{title}</h5>
+        <img width={133} height={112} src={item.imageUrl} alt="Sneakers" />
+        <h5>{item.title}</h5>
         <div className="d-flex justify-between align-center">
           <div className="d-flex flex-column">
             <span>Price:</span>
-            <b>{price} грн.</b>
+            <b>{item.price} грн.</b>
           </div>
-          <button className="button" onClick={() => onClickButton()}>
-            <img width={11} height={11} src="/img/plus.svg" alt="Add"></img>
-          </button>
+          <img
+            className={styles.plus}
+            src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
+            alt="Add"
+            onClick={onClickPlus}
+          ></img>
         </div>
       </div>
     </div>
