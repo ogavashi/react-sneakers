@@ -1,7 +1,7 @@
+import CartItem from "../CartItem";
 import styles from "./Drawer.module.scss";
 
-const Drawer = ({ cartItems, onClickClose }) => {
-  console.log(cartItems);
+const Drawer = ({ cartItems = [], onClickClose, onClickRemove }) => {
   return (
     <div className={styles.overlay}>
       <div className={styles.drawer}>
@@ -14,38 +14,42 @@ const Drawer = ({ cartItems, onClickClose }) => {
             alt="Remove"
           />
         </h2>
-        <div className={styles.items}>
-          {cartItems.map((item, index) => (
-            <div className="cartItem d-flex align-center mb-20">
-              <div
-                style={{ backgroundImage: `url(${item.imageUrl})` }}
-                className="cartItemImg"
-              ></div>
-              <div className="mr-20 flex">
-                <p className="mb-5">{item.title}</p>
-                <b>{item.price} грн.</b>
-              </div>
-              <img className="removeBtn" src="img/btn-remove.svg" alt="Remove" />
+        {cartItems.length > 0 ? (
+          <div>
+            <div className={styles.items}>
+              {cartItems.map((item, index) => (
+                <CartItem item={item} onClickRemove={onClickRemove} key={item.id} />
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="cartTotalBlock">
-          <ul>
-            <li>
-              <span>Total: </span>
-              <div></div>
-              <b> 9000 грн. </b>
-            </li>
-            <li>
-              <span>Tax 5%:</span>
-              <div></div>
-              <b>450 грн.</b>
-            </li>
-          </ul>
-          <button className="greenButton">
-            Confirm your order <img src="img/arrow.svg" alt="Arrow" />
-          </button>
-        </div>
+            <div className="cartTotalBlock">
+              <ul>
+                <li>
+                  <span>Total: </span>
+                  <div></div>
+                  <b> 9000 грн. </b>
+                </li>
+                <li>
+                  <span>Tax 5%:</span>
+                  <div></div>
+                  <b>450 грн.</b>
+                </li>
+              </ul>
+              <button className="greenButton">
+                Confirm your order <img src="img/arrow.svg" alt="Arrow" />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="cartEmpty d-flex align-center justify-center flex-column flex">
+            <img className="mb-20" width="120px" src="/img/empty-cart.jpg" alt="Empty" />
+            <h2>Cart is empty</h2>
+            <p className="opacity-6">Add at least one pair to make order</p>
+            <button onClick={onClickClose} className="greenButton">
+              <img src="img/arrow.svg" alt="Arrow" />
+              Go back
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
