@@ -8,7 +8,25 @@ const Home = ({
   items,
   onAddToCart,
   onAddToFavourite,
+  cartItems,
+  isLoading,
 }) => {
+  const renderItems = () => {
+    const filteredItems = items.filter((item) =>
+      item.title.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    return (isLoading ? [...Array(8)] : filteredItems).map((item, index) => (
+      <Card
+        item={item}
+        key={index}
+        onAddCart={onAddToCart}
+        onAddFavourite={onAddToFavourite}
+        inCart={cartItems.some((obj) => Number(obj.id) === Number(item.id))}
+        isLoading={isLoading}
+      />
+    ));
+  };
+
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
@@ -26,18 +44,7 @@ const Home = ({
           )}
         </div>
       </div>
-      <div className="d-flex flex-wrap">
-        {items
-          .filter((item) => item.title.toLowerCase().includes(inputValue.toLowerCase()))
-          .map((item, index) => (
-            <Card
-              item={item}
-              key={index}
-              onAddCart={onAddToCart}
-              onAddFavourite={onAddToFavourite}
-            />
-          ))}
-      </div>
+      <div className="d-flex flex-wrap">{renderItems()}</div>
     </div>
   );
 };
