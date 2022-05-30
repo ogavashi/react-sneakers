@@ -60,7 +60,7 @@ const Drawer = ({ cartItems = [], onClickClose, onClickRemove, opened }) => {
                   <b> {totalSum} грн. </b>
                 </li>
                 <li>
-                  <span>Tax 5%:</span>
+                  <span>Tax 5%: </span>
                   <div></div>
                   <b>{tax} грн.</b>
                 </li>
