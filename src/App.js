@@ -78,7 +78,7 @@ function App() {
   };
 
   return (
-    <AppContext.Provider value={{ favouriteItems, onAddToFavourite }}>
+    <AppContext.Provider value={{ favouriteItems, onAddToFavourite, setShow, setCartItems }}>
       <div className="wrapper clear">
         {show && (
           <Drawer
