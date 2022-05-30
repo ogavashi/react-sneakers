@@ -1,27 +1,21 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import ContentLoader from "react-content-loader";
+import AppContext from "../../context";
 
 import styles from "./Card.module.scss";
 
-const Card = ({
-  item,
-  onAddCart,
-  onAddFavourite,
-  setFavourite = false,
-  isLoading = false,
-  inCart,
-}) => {
-  const [isAdded, setIsAdded] = React.useState(inCart);
-  const [isFavourite, setIsFavourite] = React.useState(setFavourite);
+const Card = ({ item, onAddCart, onAddFavourite, isLoading = false, favourite = false }) => {
+  const [isFavourite, setIsFavourite] = useState(favourite);
+
+  const { isItemAdded } = useContext(AppContext);
 
   const onClickPlus = () => {
-    setIsAdded(!isAdded);
-    onAddCart(item);
+    onAddCart({ ...item, parentId: item.id });
   };
 
   const onClickFavourite = () => {
+    onAddFavourite({ ...item, parentId: item.id });
     setIsFavourite(!isFavourite);
-    onAddFavourite(item);
   };
 
   return (
@@ -43,13 +37,15 @@ const Card = ({
         </ContentLoader>
       ) : (
         <div>
-          <div className={styles.favourite}>
-            <img
-              onClick={onClickFavourite}
-              src={isFavourite ? "/img/liked.svg" : "/img/unliked.svg"}
-              alt="Like"
-            />
-          </div>
+          {onAddFavourite && (
+            <div className={styles.favourite}>
+              <img
+                onClick={onClickFavourite}
+                src={isFavourite ? "/img/liked.svg" : "/img/unliked.svg"}
+                alt="Like"
+              />
+            </div>
+          )}
           <img width={133} height={112} src={item.imageUrl} alt="Sneakers" />
           <h5>{item.title}</h5>
           <div className="d-flex justify-between align-center">
@@ -57,12 +53,14 @@ const Card = ({
               <span>Price:</span>
               <b>{item.price} грн.</b>
             </div>
-            <img
-              className={styles.plus}
-              src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
-              alt="Add"
-              onClick={onClickPlus}
-            ></img>
+            {onAddCart && (
+              <img
+                className={styles.plus}
+                src={isItemAdded(item.id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
+                alt="Add"
+                onClick={onClickPlus}
+              ></img>
+            )}
           </div>
         </div>
       )}
